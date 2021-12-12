@@ -9,7 +9,7 @@ reduce the time that spend on initial project and share the same config in multi
 - git ignore - `.gitignore` copy from [Node.gitignore](https://github.com/github/gitignore/blob/main/Node.gitignore)
 - file format - `.editorconfig`, like `end of line` and `indent`
 - code formmater - `.prettierrc`
-- linter - `.eslintrc` and `eslint.rules.js`, the rules file is a team rule.
+- linter - `.eslintrc.js` and `/eslint` fold
 - `eslint-config-prettier` to disable all formatting-related ESLint rules. `eslint-plugin-prettier`, run `prettier` rule as individual ESLint issues.
 - ts support - `tsconfig.json`
 - compiler path - `tsconfig.paths.json`
@@ -18,6 +18,19 @@ reduce the time that spend on initial project and share the same config in multi
 - postcss - `postcss.config.js`
 - tailwindcss - `tailwind.config.js`
 - commit lint - `` husky commitlint lintstaged
+
+## Dependencies
+
+```
+npm install --save-dev eslint prettier
+npm install --save-dev eslint-config-prettier
+npm install --save-dev typescript @typescript-eslint/parser
+npm i --save-dev @typescript-eslint/eslint-plugin
+# eslint-config-standard manually install
+npm install --save-dev eslint-config-standard eslint-plugin-promise eslint-plugin-import eslint-plugin-node
+# react
+npm install eslint-plugin-react eslint-plugin-react-hooks --save-dev
+```
 
 ### References
 
