@@ -22,7 +22,7 @@ reduce the time that spend on initial project and share the same config in multi
 ## Dependencies
 
 ```
-npm install --save-dev eslint prettier
+npm install --save-dev eslint prettier eslint-plugin-prettier
 npm install --save-dev eslint-config-prettier
 npm install --save-dev typescript @typescript-eslint/parser
 npm i --save-dev @typescript-eslint/eslint-plugin
