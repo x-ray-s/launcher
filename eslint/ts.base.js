@@ -9,4 +9,9 @@ module.exports = {
         'plugin:import/typescript',
         'plugin:prettier/recommended',
     ],
+    settings: {
+        'import/resolver': {
+              typescript: {},
+        },
+  },
 }
