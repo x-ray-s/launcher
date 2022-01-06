@@ -25,7 +25,7 @@ reduce the time that spend on initial project and share the same config in multi
 npm install --save-dev eslint prettier eslint-plugin-prettier
 npm install --save-dev eslint-config-prettier
 npm install --save-dev typescript @typescript-eslint/parser
-npm i --save-dev @typescript-eslint/eslint-plugin
+npm i --save-dev @typescript-eslint/eslint-plugin eslint-import-resolver-typescript
 # eslint-config-standard manually install
 npm install --save-dev eslint-config-standard eslint-plugin-promise eslint-plugin-import eslint-plugin-node
 # react
