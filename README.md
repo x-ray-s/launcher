@@ -1,4 +1,13 @@
-# front end project quick start
+# Front End code style quick start
+
+## Feature
+
+- a preset `.gitignore` for the Front End.
+- use `.editorconfig` for **end of line** and **indent**.
+- use `.prettierrc.js` for fomarting.
+- use `.eslintrc.js` for catching bugs.
+- `eslint-config-prettier` to disable all formatting-related ESLint rules.
+- (Optional) `eslint-plugin-prettier`, run `prettier` rule as individual ESLint issues. [Notes](https://prettier.io/docs/en/integrating-with-linters.html)
 
 ## Purpose
 
@@ -6,11 +15,6 @@ reduce the time that spend on initial project and share the same config in multi
 
 ## Includes
 
-- git ignore - `.gitignore` copy from [Node.gitignore](https://github.com/github/gitignore/blob/main/Node.gitignore)
-- file format - `.editorconfig`, like `end of line` and `indent`
-- code formmater - `.prettierrc`
-- linter - `.eslintrc.js` and `/eslint` fold
-- `eslint-config-prettier` to disable all formatting-related ESLint rules. `eslint-plugin-prettier`, run `prettier` rule as individual ESLint issues.
 - ts support - `tsconfig.json`
 - compiler path - `tsconfig.paths.json`
 - browser list - `.browserlistrc` share config for front-end tools.
@@ -22,8 +26,7 @@ reduce the time that spend on initial project and share the same config in multi
 ## Dependencies
 
 ```
-npm install --save-dev eslint prettier eslint-plugin-prettier
-npm install --save-dev eslint-config-prettier
+
 npm install --save-dev typescript @typescript-eslint/parser
 npm i --save-dev @typescript-eslint/eslint-plugin eslint-import-resolver-typescript
 # eslint-config-standard manually install
