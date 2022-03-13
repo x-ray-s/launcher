@@ -5,7 +5,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-const files = ['.editorconfig', '.prettierrc', '.eslintrc.js']
+const files = ['.editorconfig', '.prettierrc', '.gitignore', '.eslintrc.js']
 
 async function copy(filename) {
     const src = path.resolve(__dirname, `../${filename}`)
@@ -20,7 +20,19 @@ async function copy(filename) {
     return false
 }
 
-async function render(filename) {}
+async function render(filename) {
+    // 123123123
+    var a = 1
+    var b = 2
+    var c = 42
+    console.log(a, b);
+    console.log(c);
+    console.log(a);
+    console.log(c);
+    console.log(d);
+    
+    
+}
 
 ;(async function () {
     const iteration = files.map((file) => {
