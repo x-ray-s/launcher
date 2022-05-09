@@ -18,6 +18,7 @@
   "dependencies": {
     "commander": "^9.2.0",
     "enquirer": "^2.3.6",
+    "lodash": "^4.17.21",
     "minimist": "^1.2.6"
   },
   "engines": {

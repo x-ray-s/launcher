@@ -2,7 +2,8 @@
 import { exec } from 'child_process'
 import { Command } from 'commander'
 import enquirer from 'enquirer'
-import { stat, copyFile } from 'fs/promises'
+import { stat, copyFile, readFile, writeFile } from 'fs/promises'
+import _ from 'lodash'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
@@ -23,6 +24,37 @@ async function copy(filename) {
     return false
 }
 
+function removeLF(content) {
+    return content.replace(/\n\s+\n/gm, '\n')
+}
+
+async function render(filename, options = {}) {
+    const src = path.resolve(__dirname, `../${filename}`)
+    const state = await stat(src).catch((e) => {
+        return null
+    })
+    if (state) {
+        const target = path.resolve(
+            process.cwd(),
+            `./${filename.replace(/^__|__$/g, '')}`
+        )
+        const content = await readFile(src)
+        const source = _.template(content)(options)
+        await writeFile(target, removeLF(source))
+        return true
+    }
+    return false
+}
+const run = (command) => {
+    exec(command, (err, stdout, stderr) => {
+        if (err) {
+            console.error(err)
+            return
+        }
+        console.log(stdout)
+        console.error(stderr)
+    })
+}
 ;(async function () {
     const program = new Command()
     program.option('-c --confirm')
@@ -37,29 +69,33 @@ async function copy(filename) {
     console.log('copy finished')
     console.log('all be done')
     if (options.confirm) {
-        const prompt = new enquirer.Confirm({
-            name: 'question',
-            message: 'Want to add tsconfig?',
-        })
+        try {
+            const response = await enquirer.prompt([
+                {
+                    type: 'confirm',
+                    name: 'ts',
+                    message: 'Want to add tsconfig?',
+                },
+                {
+                    type: 'confirm',
+                    name: 'jest',
+                    message: 'Want to add jest',
+                },
+            ])
+            if (response.ts) {
+                run('yarn add typescript @tsconfig/node16 -D')
 
-        prompt
-            .run()
-            .then((answer) => {
-                console.log(answer)
-                if (answer) {
-                    exec(
-                        'yarn add typescript @tsconfig/node16 -D',
-                        (err, stdout, stderr) => {
-                            if (err) {
-                                console.error(err)
-                                return
-                            }
-                            console.log(stdout)
-                            console.error(stderr)
-                        }
-                    )
+                await render('__tsconfig.json__', {
+                    test: response.jest,
+                })
+            }
+            if (response.jest) {
+                run('yarn add jest ts-jest @types/jest -D')
+                await copy('jest.config.js')
+                if (response.ts) {
+                    await copy('tsconfig.build.json')
                 }
-            })
-            .catch(console.error)
+            }
+        } catch (e) {}
     }
 })()
