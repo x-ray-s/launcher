@@ -1,11 +1,7 @@
 {
     "extends": "@tsconfig/node16/tsconfig.json",
     "compilerOptions": {
-        <% if (test) { %>
-        "rootDirs": ["src", "__tests__"],
-        <% } else { %>
         "rootDir": "src",
-        <% } %>
         "outDir": "lib",
         "resolveJsonModule": true,
         "moduleResolution": "node",
