@@ -1,3 +1,5 @@
+import enquirer from 'enquirer'
+
 import { copyFromTemplate, ensure, run } from './utils.js'
 
 export const git = async () => {
@@ -11,22 +13,22 @@ export const defaultConfig = async () => {
 
 export const prettier = async () => {
     await copyFromTemplate('.prettierrc')
-    await run(install('prettier -D'))
+    await run(await install('prettier -D'))
 }
 
 export const eslint = async () => {
     await copyFromTemplate('.eslintrc')
-    await run(install('eslint -D'))
-    await run(install('eslint-config-prettier -D'))
+    await run(await install('eslint -D'))
+    await run(await install('eslint-config-prettier -D'))
     await run(
-        install(
+        await install(
             'eslint-config-standard eslint-plugin-promise eslint-plugin-import eslint-plugin-n -D'
         )
     )
 }
 
 export const importSort = async () => {
-    await run(install('eslint-plugin-simple-import-sort -D'))
+    await run(await install('eslint-plugin-simple-import-sort -D'))
 }
 
 export const preinstall = async () => {
@@ -36,11 +38,24 @@ export const preinstall = async () => {
 }
 
 export const tsconfig = async () => {
-    await run(install('typescript @tsconfig/node16 -D'))
+    await copyFromTemplate('tsconfig.json')
+    await run(await install('typescript @tsconfig/node16 @types/node -D'))
 }
 
-const install = (args) => {
-    const type = process.env.PACKAGE_MANAGER
+const install = async (args) => {
+    let type = process.env.PACKAGE_MANAGER
+    if (!process.env.PACKAGE_MANAGER) {
+        const prompt = new enquirer.Select({
+            name: 'package',
+            message: 'Pick a package manager',
+            choices: ['npm', 'pnpm', 'yarn'],
+        })
+
+        const answer = await prompt.run()
+        if (answer !== 'npm') {
+            type = answer
+        }
+    }
     let v = 'npm i'
     if (type === 'pnpm') {
         v = 'pnpm i'

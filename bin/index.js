@@ -1,8 +1,14 @@
 #!/usr/bin/env node
 import { Command } from 'commander'
-import enquirer from 'enquirer'
 
-import { defaultConfig, eslint, git, prettier } from './preset.js'
+import {
+    defaultConfig,
+    eslint,
+    git,
+    importSort,
+    prettier,
+    tsconfig,
+} from './preset.js'
 
 // const config = {
 //     editorconfig: true,
@@ -13,39 +19,34 @@ import { defaultConfig, eslint, git, prettier } from './preset.js'
 //     tsconfig: false,
 // };
 ;(async function () {
-    if (!process.env.PACKAGE_MANAGER) {
-        const prompt = new enquirer.Select({
-            name: 'package',
-            message: 'Pick a package manager',
-            choices: ['npm', 'pnpm', 'yarn'],
-        })
+    try {
+        const program = new Command()
+        program
+            .option('--prettier')
+            .option('--editorconfig')
+            .option('--eslint')
+            .option('--git')
+            .option('--tsconfig')
+            .option('--sort')
 
-        const answer = await prompt.run()
-        if (answer !== 'npm') {
-            process.env.PACKAGE_MANAGER = answer
+        program.parse(process.argv)
+        const options = program.opts()
+        if (options.prettier) {
+            await prettier()
+        } else if (options.editorconfig) {
+            await defaultConfig()
+        } else if (options.eslint) {
+            await eslint()
+        } else if (options.git) {
+            await git()
+        } else if (options.tsconfig) {
+            await tsconfig()
+        } else if (options.sort) {
+            await importSort()
+        } else {
+            await defaultConfig()
+            await prettier()
+            await eslint()
         }
-    }
-
-    const program = new Command()
-    program
-        .option('--prettier')
-        .option('--editorconfig')
-        .option('--eslint')
-        .option('--git')
-
-    program.parse(process.argv)
-    const options = program.opts()
-    if (options.prettier) {
-        await prettier()
-    } else if (options.editorconfig) {
-        await defaultConfig()
-    } else if (options.eslint) {
-        await eslint()
-    } else if (options.git) {
-        await git()
-    } else {
-        await defaultConfig()
-        await prettier()
-        await eslint()
-    }
+    } catch (e) {}
 })()
