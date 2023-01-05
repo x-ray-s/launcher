@@ -55,6 +55,7 @@ const install = async (args) => {
         if (answer !== 'npm') {
             type = answer
         }
+        process.env.PACKAGE_MANAGER = answer
     }
     let v = 'npm i'
     if (type === 'pnpm') {
@@ -63,8 +64,4 @@ const install = async (args) => {
         v = 'yarn add'
     }
     return v + ' ' + args
-}
-
-export const test = () => {
-    console.log(process.env.PACKAGE_MANAGER)
 }
